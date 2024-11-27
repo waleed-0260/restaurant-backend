@@ -32,3 +32,5 @@ app.use("/api/wishlist", wishlist)
 app.use("/api/items", items)
 app.use("/api/admin", adminRouter)
 app.listen(8000, ()=> console.log("server started"))
+
+module.exports = app;
