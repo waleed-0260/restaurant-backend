@@ -26,11 +26,13 @@ connection("mongodb+srv://muhammadwaleedahsan43:5J8mD9BusMIaO4fq@cluster0.ha3cp.
     console.log("catch error", e)
 })
 
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-app.use("/api/user/signUp", userRouter)
+// app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+// app.use("/api/user/signUp", userRouter)
+// app.use("/api/wishlist", wishlist)
+// app.use("/api/items", items)
+// app.use("/api/admin", adminRouter)
+
 app.use("/api/wishlist", wishlist)
-app.use("/api/items", items)
-app.use("/api/admin", adminRouter)
 app.listen(8000, ()=> console.log("server started"))
 
 module.exports = app;
