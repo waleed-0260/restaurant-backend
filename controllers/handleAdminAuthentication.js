@@ -6,26 +6,20 @@ const {setUser} = require("../services/auth.js")
 async function handleSignUp(req, res) {
     try {
         const {
-            restaurantName,
-            restaurantType,
-            location,
-            ownerName,
-            phoneNumber,
+            fullName,
             email,
-            password,
-            confirmPassword,
-            businessEmail,
+            password
         } = req.body;
 
         // Validate required fields
-        if (!restaurantName || !restaurantType || !location || !ownerName || !phoneNumber || !email || !password || !confirmPassword) {
+        if (!fullName || !email || !password) {
             return res.status(400).json({ error: "All fields are required" });
         }
 
         // Validate password confirmation
-        if (password !== confirmPassword) {
-            return res.status(400).json({ error: "Passwords do not match" });
-        }
+        // if (password !== confirmPassword) {
+        //     return res.status(400).json({ error: "Passwords do not match" });
+        // }
 
         // Check for existing email
         const checkEmail = await adminAuth.findOne({ email });
@@ -38,14 +32,9 @@ async function handleSignUp(req, res) {
 
         // Create user
         await adminAuth.create({
-            restaurantName,
-            restaurantType,
-            location,
-            ownerName,
-            phoneNumber,
+            fullName,
             email,
-            password: hashedPassword, // Store hashed password
-            businessEmail,
+            password
         });
 
         return res.status(201).json({ message: "Admin user created successfully" });
