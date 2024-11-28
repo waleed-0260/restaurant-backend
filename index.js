@@ -29,7 +29,7 @@ app.get("/get-contacts", async(req, res)=>{
     res.status(200).json(data)
 })
 
-app.use("/admin", admin)
+//app.use("/admin", admin)
 
 app.post("/admin/login", async(req, res)=>{
     try{
@@ -39,8 +39,8 @@ app.post("/admin/login", async(req, res)=>{
             return res.status(400).json({failed:"user not found"})
         }
         else{
-            const token = setUser({findAccount});
-            res.cookie("loginUser", token)
+            // const token = setUser({findAccount});
+            //res.cookie("loginUser", token)
             return res.status(200).json({success:"user logged in successfully"})
         }
     }
