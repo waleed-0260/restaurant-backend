@@ -38,25 +38,25 @@ app.get("/get-contacts", async(req, res)=>{
 
 //app.use("/admin", admin)
 
-const router = express.Router();
+// const router = express.Router();
 
-cloudinary.config({
-    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-    api_key: process.env.CLOUDINARY_API_KEY,
-    api_secret: process.env.CLOUDINARY_API_SECRET,
-  });
+// cloudinary.config({
+//     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+//     api_key: process.env.CLOUDINARY_API_KEY,
+//     api_secret: process.env.CLOUDINARY_API_SECRET,
+//   });
   
-  // Configure Multer with Cloudinary
-  const storage = new CloudinaryStorage({
-    cloudinary: cloudinary,
-    params: {
-      folder: 'portfolio', // Cloudinary folder name
-      format: async (req, file) => 'png', // Change format if needed (e.g., 'jpeg')
-      public_id: (req, file) => `${Date.now()}-${file.originalname}`,
-    },
-  });
+//   // Configure Multer with Cloudinary
+//   const storage = new CloudinaryStorage({
+//     cloudinary: cloudinary,
+//     params: {
+//       folder: 'portfolio', // Cloudinary folder name
+//       format: async (req, file) => 'png', // Change format if needed (e.g., 'jpeg')
+//       public_id: (req, file) => `${Date.now()}-${file.originalname}`,
+//     },
+//   });
   
-  const upload = multer({ storage });
+//   const upload = multer({ storage });
 
 
 
