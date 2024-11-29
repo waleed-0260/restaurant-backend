@@ -9,14 +9,14 @@ app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({extended: false}))
 app.use(cookieParser())
-const {setUser} = require("./services/auth.js")
-const adminAuth = require("./models/adminAuth")
-const portfolio = require("./models/portfolio.js")
-const multer = require('multer');
-const path = require('path');
-const multer = require('multer');
-const { CloudinaryStorage } = require('multer-storage-cloudinary');
-const cloudinary = require('cloudinary').v2;
+// const {setUser} = require("./services/auth.js")
+// const adminAuth = require("./models/adminAuth")
+// const portfolio = require("./models/portfolio.js")
+// const multer = require('multer');
+// const path = require('path');
+// const multer = require('multer');
+// const { CloudinaryStorage } = require('multer-storage-cloudinary');
+// const cloudinary = require('cloudinary').v2;
 
 
 connection("mongodb+srv://muhammadwaleedahsan43:5J8mD9BusMIaO4fq@cluster0.ha3cp.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0").then(()=>{
@@ -129,6 +129,9 @@ app.get("/get-contacts", async(req, res)=>{
 //     }
 //   );
 
+app.get("/", async(req, res)=>{
+    res.json({message:"check if working yet or not"})
+})
 
 app.listen(8000, ()=> console.log("server started"))
 
