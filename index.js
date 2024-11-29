@@ -1,4 +1,3 @@
-
 const express = require("express")
 const connection = require("./DbConnection.js")
 const cors = require("cors")
@@ -26,7 +25,7 @@ app.post("/add-contact", async(req, res)=>{
 })
 app.get("/get-contacts", async(req, res)=>{
     const data = await contact.find({});
-    res.status(200).json(data)
+    res.status(200).json({data:data})
 })
 
 //app.use("/admin", admin)
