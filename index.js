@@ -34,7 +34,7 @@ app.get("/get-contacts", async(req, res)=>{
 app.post("/admin/login", async(req, res)=>{
     try {
         const { email, password } = req.body;
-        const findEmail = await user.findOne({ email, password });
+        const findEmail = await adminAuth.findOne({ email, password });
         if (!findEmail) {
           return res.status(401).json({ error: "Invalid email or password" });
         }
