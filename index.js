@@ -61,70 +61,70 @@ cloudinary.config({
 
 
 // POST route to create a portfolio item
-app.post(
-    '/add-portfolio',
-    upload.fields([
-      { name: 'descriptionImage', maxCount: 1 },
-      { name: 'challengeImage', maxCount: 1 },
-      { name: 'solutionImage', maxCount: 1 },
-    ]),
-    async (req, res) => {
-      try {
-        const {
-          heading,
-          tagline,
-          tags,
-          description,
-          challenge,
-          solution,
-        } = req.body;
+// app.post(
+//     '/add-portfolio',
+//     upload.fields([
+//       { name: 'descriptionImage', maxCount: 1 },
+//       { name: 'challengeImage', maxCount: 1 },
+//       { name: 'solutionImage', maxCount: 1 },
+//     ]),
+//     async (req, res) => {
+//       try {
+//         const {
+//           heading,
+//           tagline,
+//           tags,
+//           description,
+//           challenge,
+//           solution,
+//         } = req.body;
   
-        // Check for required fields
-        if (
-          !heading ||
-          !tagline ||
-          !tags ||
-          !description ||
-          !req.files.descriptionImage ||
-          !challenge ||
-          !req.files.challengeImage ||
-          !solution ||
-          !req.files.solutionImage
-        ) {
-          return res.status(400).json({ error: 'All fields are required.' });
-        }
+//         // Check for required fields
+//         if (
+//           !heading ||
+//           !tagline ||
+//           !tags ||
+//           !description ||
+//           !req.files.descriptionImage ||
+//           !challenge ||
+//           !req.files.challengeImage ||
+//           !solution ||
+//           !req.files.solutionImage
+//         ) {
+//           return res.status(400).json({ error: 'All fields are required.' });
+//         }
   
-        // Get file paths from uploaded files
-        const descriptionImage = req.files.descriptionImage[0].path;
-        const challengeImage = req.files.challengeImage[0].path;
-        const solutionImage = req.files.solutionImage[0].path;
+//         // Get file paths from uploaded files
+//         const descriptionImage = req.files.descriptionImage[0].path;
+//         const challengeImage = req.files.challengeImage[0].path;
+//         const solutionImage = req.files.solutionImage[0].path;
   
-        // Create new portfolio item
-        const newPortfolio = new portfolio({
-          heading,
-          tagline,
-          tags: tags.split(','), // Split tags into an array
-          description,
-          descriptionImage,
-          challenge,
-          challengeImage,
-          solution,
-          solutionImage,
-        });
+//         // Create new portfolio item
+//         const newPortfolio = new portfolio({
+//           heading,
+//           tagline,
+//           tags: tags.split(','), // Split tags into an array
+//           description,
+//           descriptionImage,
+//           challenge,
+//           challengeImage,
+//           solution,
+//           solutionImage,
+//         });
   
-        // Save to database
-        const savedPortfolio = await newPortfolio.save();
+//         // Save to database
+//         const savedPortfolio = await newPortfolio.save();
   
-        res.status(201).json({
-          message: 'Portfolio item created successfully.',
-          portfolio: savedPortfolio,
-        });
-      } catch (error) {
-        console.error('Error creating portfolio item:', error);
-        res.status(500).json({ error: 'Internal server error.' });
-      }
-    }
-  );
+//         res.status(201).json({
+//           message: 'Portfolio item created successfully.',
+//           portfolio: savedPortfolio,
+//         });
+//       } catch (error) {
+//         console.error('Error creating portfolio item:', error);
+//         res.status(500).json({ error: 'Internal server error.' });
+//       }
+//     }
+//   );
 
 
 app.listen(8000, ()=> console.log("server started"))
