@@ -14,6 +14,11 @@ const adminAuth = require("./models/adminAuth")
 const portfolio = require("./models/portfolio.js")
 const multer = require('multer');
 const path = require('path');
+const multer = require('multer');
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
+const cloudinary = require('cloudinary').v2;
+
+
 connection("mongodb+srv://muhammadwaleedahsan43:5J8mD9BusMIaO4fq@cluster0.ha3cp.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0").then(()=>{
     console.log("db connected")
 }).catch((e)=>{
@@ -35,30 +40,23 @@ app.get("/get-contacts", async(req, res)=>{
 
 const router = express.Router();
 
-// Configure Multer for file uploads
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'uploads/'); // Directory where images will be stored
-  },
-  filename: (req, file, cb) => {
-    cb(null, `${Date.now()}-${file.originalname}`);
-  },
-});
-
-const fileFilter = (req, file, cb) => {
-  // Accept only image files
-  if (file.mimetype.startsWith('image/')) {
-    cb(null, true);
-  } else {
-    cb(new Error('File is not an image!'), false);
-  }
-};
-
-const upload = multer({
-  storage: storage,
-  fileFilter: fileFilter,
-  limits: { fileSize: 5 * 1024 * 1024 }, // Limit file size to 5MB
-});
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+  });
+  
+  // Configure Multer with Cloudinary
+  const storage = new CloudinaryStorage({
+    cloudinary: cloudinary,
+    params: {
+      folder: 'portfolio', // Cloudinary folder name
+      format: async (req, file) => 'png', // Change format if needed (e.g., 'jpeg')
+      public_id: (req, file) => `${Date.now()}-${file.originalname}`,
+    },
+  });
+  
+  const upload = multer({ storage });
 
 
 
