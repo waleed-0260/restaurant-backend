@@ -123,8 +123,8 @@ app.post(
           portfolio: savedPortfolio,
         });
       } catch (error) {
-        console.error('Error creating portfolio item:', error);
-        res.status(500).json({ error: error });
+        console.error('Error creating portfolio item:', error.message, error.stack);
+        res.status(500).json({ error: error.message || 'Internal Server Error' });
       }
     }
   );
@@ -136,3 +136,6 @@ app.get("/", async(req, res)=>{
 app.listen(8000, ()=> console.log("server started"))
 
 module.exports = app;
+
+
+
