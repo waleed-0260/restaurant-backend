@@ -6,8 +6,8 @@ const contact = require("./models/contacts.js")
 const app = express();
 const cookieParser = require('cookie-parser');
 app.use(cors())
-app.use(express.json())
-app.use(express.urlencoded({extended: false}))
+app.use(express.json({ limit: '10mb' })); // Increase JSON body limit
+app.use(express.urlencoded({ extended: true, limit: '10mb' })); 
 app.use(cookieParser())
 const {setUser} = require("./services/auth.js")
 const adminAuth = require("./models/adminAuth")
@@ -49,17 +49,20 @@ cloudinary.config({
     api_secret: process.env.CLOUDINARY_API_SECRET,
   });
   
-  // Configure Multer with Cloudinary
   const storage = new CloudinaryStorage({
     cloudinary: cloudinary,
     params: {
-      folder: 'portfolio', // Cloudinary folder name
-      format: async (req, file) => 'png', // Change format if needed (e.g., 'jpeg')
+      folder: 'portfolio',
+      format: async (req, file) => 'png',
       public_id: (req, file) => `${Date.now()}-${file.originalname}`,
+      transformation: [{ width: 1024, height: 768, crop: 'limit' }], // Optimize upload
     },
   });
   
-  const upload = multer({ storage });
+  const upload = multer({
+    storage,
+    limits: { fileSize: 5 * 1024 * 1024 }, // Limit to 5MB per file
+  });
 
 
 
@@ -81,21 +84,6 @@ app.post(
           challenge,
           solution,
         } = req.body;
-  
-        // Check for required fields
-        if (
-          !heading ||
-          !tagline ||
-          !tags ||
-          !description ||
-          !req.files.descriptionImage ||
-          !challenge ||
-          !req.files.challengeImage ||
-          !solution ||
-          !req.files.solutionImage
-        ) {
-          return res.status(400).json({ error: 'All fields are required.' });
-        }
   
         // Get file paths from uploaded files
         const descriptionImage = req.files.descriptionImage[0].path;
