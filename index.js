@@ -14,7 +14,7 @@ const adminAuth = require("./models/adminAuth")
 const portfolio = require("./models/portfolio.js")
 const multer = require('multer');
 const path = require('path');
-const multer = require('multer');
+// const multer = require('multer');
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const cloudinary = require('cloudinary').v2;
 
@@ -44,9 +44,9 @@ app.get("/get-contacts", async(req, res)=>{
 // const router = express.Router();
 
 cloudinary.config({
-    cloud_name: "dek5xdodf",
-    api_key: "148833484171831",
-    api_secret: "eblq5LDRtYvT3P86txwfhDSd8Ro",
+    cloud_name:process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
   });
   
   // Configure Multer with Cloudinary
