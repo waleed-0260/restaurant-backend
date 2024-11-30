@@ -124,7 +124,7 @@ app.post(
         });
       } catch (error) {
         console.error('Error creating portfolio item:', error);
-        res.status(500).json({ error: 'Internal server error.' });
+        res.status(500).json({ error: error });
       }
     }
   );
