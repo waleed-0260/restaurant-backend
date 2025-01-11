@@ -17,7 +17,7 @@ const path = require('path');
 // const multer = require('multer');
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const cloudinary = require('cloudinary').v2;
-const router = express.Router();
+
 
 connection("mongodb+srv://muhammadwaleedahsan43:5J8mD9BusMIaO4fq@cluster0.ha3cp.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0").then(()=>{
     console.log("db connected")
@@ -60,69 +60,67 @@ cloudinary.config({
     limits: { fileSize: 5 * 1024 * 1024 }, // Limit to 5MB per file
   });
 
-app.post("/add-portfolio", async (req, res) => {
-  try {
-    const {
-      heading,
-      tagline,
-      tags,
-      description,
-      masterFloorImage,
-      panelFloorImage,
-      challenge,
-      mapImage,
-      renderingImage,
-      additionalImage,
-      solution,
-      solutionImage,
-    } = req.body;
 
-    // Validate that required fields are provided
-    if (
-      !heading ||
-      !tagline ||
-      !tags ||
-      !description ||
-      !masterFloorImage ||
-      !panelFloorImage ||
-      !challenge ||
-      !mapImage ||
-      !renderingImage ||
-      !additionalImage ||
-      !solution ||
-      !solutionImage
-    ) {
-      return res.status(400).json({ error: "All fields are required." });
+
+// POST route to create a portfolio item
+app.post(
+    '/add-portfolio',
+    upload.fields([
+      { name: 'masterFloorImage', maxCount: 1 },
+      { name: 'panelFloorImage', maxCount: 1 },
+      { name: 'mapImage', maxCount: 1 },
+      { name: 'renderingImage', maxCount: 1 },
+      { name: 'additionalImage', maxCount: 1 },
+      { name: 'solutionImage', maxCount: 1 },
+    ]),
+    async (req, res) => {
+      try {
+        const {
+          heading,
+          tagline,
+          tags,
+          description,
+          challenge,
+          solution,
+        } = req.body;
+  
+        // Get file paths from uploaded files
+        const masterFloorImage = req.files.masterFloorImage[0].path;
+const panelFloorImage = req.files.panelFloorImage[0].path;
+const mapImage = req.files.mapImage[0].path;
+const renderingImage = req.files.renderingImage[0].path;
+const additionalImage = req.files.additionalImage[0].path;
+const solutionImage = req.files.solutionImage[0].path;
+  
+        // Create new portfolio item
+        const newPortfolio = new portfolio({
+          heading,
+          tagline,
+          tags: tags.split(","),
+          description,
+          challenge,
+          solution,
+          masterFloorImage,
+          panelFloorImage,
+          mapImage,
+          renderingImage,
+          additionalImage,
+          solutionImage,
+        });
+  
+        // Save to database
+        const savedPortfolio = await newPortfolio.save();
+  
+        res.status(201).json({      
+          message: 'Portfolio item created successfully.',
+          portfolio: savedPortfolio,
+        });
+      } catch (error) {
+        console.error('Error creating portfolio item:', error.message, error.stack);
+        res.status(500).json({ error: error.message || 'Internal Server Error' });
+      }
     }
-
-    // Create a new portfolio entry
-    const newPortfolio = new portfolio({
-      heading,
-      tagline,
-      tags,
-      description,
-      masterFloorImage,
-      panelFloorImage,
-      challenge,
-      mapImage,
-      renderingImage,
-      additionalImage,
-      solution,
-      solutionImage,
-    });
-
-    // Save the portfolio to the database
-    await newPortfolio.save();
-
-    res.status(201).json({ message: "Portfolio added successfully!", data: newPortfolio });
-  } catch (error) {
-    console.error("Error adding portfolio:", error);
-    res.status(500).json({ error: "Internal server error." });
-  }
-});
-
-module.exports = router;
-
+  );
 
 app.get("/get-portfolio", async(req, res)=>{
   const portfolioData = await portfolio.find();
