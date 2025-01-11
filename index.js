@@ -9,8 +9,8 @@ app.use(cors())
 app.use(express.json({ limit: '10mb' })); // Increase JSON body limit
 app.use(express.urlencoded({ extended: true, limit: '10mb' })); 
 app.use(cookieParser())
-const {setUser} = require("./services/auth.js")
-const adminAuth = require("./models/adminAuth")
+// const {setUser} = require("./services/auth.js")
+// const adminAuth = require("./models/adminAuth")
 const portfolio = require("./models/portfolio.js")
 const multer = require('multer');
 const path = require('path');
@@ -24,11 +24,7 @@ connection("mongodb+srv://muhammadwaleedahsan43:5J8mD9BusMIaO4fq@cluster0.ha3cp.
 }).catch((e)=>{
     console.log("catch error", e)
 })
-
-
-
-
-
+// CONTACT FORM
 app.post("/add-contact", async(req, res)=>{
     const {name, email, phone, message} = req.body;
     const success = await contact.create({name, email, phone, message})
@@ -117,8 +113,9 @@ app.post(
     }
   );
 
-app.get("/", async(req, res)=>{
-    res.json({message:"check if working yet or not"})
+app.get("/get-portfolio", async(req, res)=>{
+  const portfolioData = await portfolio.find();
+    res.status(200).json(portfolioData);
 })
 
 app.listen(8000, ()=> console.log("server started"))
