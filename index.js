@@ -127,6 +127,27 @@ app.get("/get-portfolio", async(req, res)=>{
     res.status(200).json(portfolioData);
 })
 
+app.get("/get-portfolio/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Find the portfolio item by ID
+    const portfolioItem = await portfolio.findById(id);
+
+    // If no item is found, return a 404 response
+    if (!portfolioItem) {
+      return res.status(404).json({ error: "Portfolio item not found." });
+    }
+
+    // Return the portfolio item
+    res.status(200).json(portfolioItem);
+  } catch (error) {
+    console.error("Error fetching portfolio item:", error);
+    res.status(500).json({ error: "Internal server error." });
+  }
+});
+
+
 app.listen(8000, ()=> console.log("server started"))
 
 module.exports = app;
