@@ -71,17 +71,23 @@ app.post(
       { name: 'mapImage', maxCount: 1 },
       { name: 'renderingImage', maxCount: 1 },
       { name: 'additionalImage', maxCount: 1 },
-      { name: 'solutionImage', maxCount: 1 },
+      // { name: 'solutionImage', maxCount: 1 },
     ]),
     async (req, res) => {
       try {
         const {
           heading,
           tagline,
-          tags,
+          // tags,
           description,
           challenge,
           solution,
+          value,
+          clientName,
+          Location,
+          Date,
+          Value,
+          Role
         } = req.body;
   
         // Get file paths from uploaded files
@@ -96,7 +102,7 @@ const solutionImage = req.files.solutionImage[0].path;
         const newPortfolio = new portfolio({
           heading,
           tagline,
-          tags: tags.split(","),
+          // tags: tags.split(","),
           description,
           challenge,
           solution,
@@ -106,6 +112,12 @@ const solutionImage = req.files.solutionImage[0].path;
           renderingImage,
           additionalImage,
           solutionImage,
+          value,
+          clientName,
+          Location,
+          Date,
+          Value,
+          Role
         });
   
         // Save to database
