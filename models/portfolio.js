@@ -17,10 +17,10 @@ const portfolioSchema = new mongoose.Schema(
     // solutionImage: { type: String, required: true },
     // CLIENT INFORMATION
     clientName: {type:String, required: true},
-    Location:{type: String, required: true},
-    Date:{type:String, required: true},
-    Value:{type:String},
-    Role:{type:String}
+    location:{type: String, required: true},
+    date:{type:String, required: true},
+    // Value:{type:String},
+    role:{type:String}
   },
   { timestamps: true }
 );

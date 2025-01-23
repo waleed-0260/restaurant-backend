@@ -84,19 +84,29 @@ app.post(
           solution,
           value,
           clientName,
-          Location,
-          Date,
-          Value,
-          Role
+          location,
+          date,
+          // Value,
+          role
         } = req.body;
   
         // Get file paths from uploaded files
-        const masterFloorImage = req.files.masterFloorImage[0].path;
-const panelFloorImage = req.files.panelFloorImage[0].path;
-const mapImage = req.files.mapImage[0].path;
-const renderingImage = req.files.renderingImage[0].path;
-const additionalImage = req.files.additionalImage[0].path;
-const solutionImage = req.files.solutionImage[0].path;
+        const masterFloorImage = req.files.masterFloorImage
+        ? req.files.masterFloorImage[0].path
+        : null;
+      const panelFloorImage = req.files.panelFloorImage
+        ? req.files.panelFloorImage[0].path
+        : null;
+      const mapImage = req.files.mapImage
+        ? req.files.mapImage[0].path
+        : null;
+      const renderingImage = req.files.renderingImage
+        ? req.files.renderingImage[0].path
+        : null;
+      const additionalImage = req.files.additionalImage
+        ? req.files.additionalImage[0].path
+        : null;
+// const solutionImage = req.files.solutionImage[0].path;
   
         // Create new portfolio item
         const newPortfolio = new portfolio({
@@ -111,13 +121,13 @@ const solutionImage = req.files.solutionImage[0].path;
           mapImage,
           renderingImage,
           additionalImage,
-          solutionImage,
+          // solutionImage,
           value,
           clientName,
-          Location,
-          Date,
-          Value,
-          Role
+          location,
+          date,
+          // Value,
+          role
         });
   
         // Save to database
