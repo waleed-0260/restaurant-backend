@@ -18,7 +18,7 @@ const portfolioSchema = new mongoose.Schema(
     // CLIENT INFORMATION
     clientName: {type:String, required: true},
     location:{type: String, required: true},
-    date:{type:String, required: true},
+    date:{type:String},
     // Value:{type:String},
     role:{type:String}
   },
