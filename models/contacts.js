@@ -1,10 +1,10 @@
 const mongoose = require("mongoose")
 
 const contactSchema = new mongoose.Schema({
-    name:{type: String, required: true},
-    email:{type:String, required: true},
-    phone:{type:String, required: true},
-    message:{type: String, requried:true}
+    name:{type: String},
+    email:{type:String},
+    phone:{type:String},
+    message:{type: String }
 }, { timestamps: true } );
 
 const contact = mongoose.model("contactSchema", contactSchema)
