@@ -40,7 +40,7 @@ const transporter = nodemailer.createTransport({
 });
 
 app.post('/add-contact', async (req, res) => {
-  const { name, email, message } = req.body;
+  const { name, email, message, phone } = req.body;
 
   const mailOptions = {
     from: `"${name}" <${email}>`, // Shows the sender's info
@@ -50,6 +50,7 @@ app.post('/add-contact', async (req, res) => {
       <h3>New Contact Message</h3>
       <p><strong>Name:</strong> ${name}</p>
       <p><strong>Email:</strong> ${email}</p>
+      <p><strong>Phone:</strong> ${phone}</p>
       <p><strong>Message:</strong><br/>${message}</p>
     `,
   };
