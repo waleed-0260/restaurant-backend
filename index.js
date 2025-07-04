@@ -19,7 +19,7 @@ const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const cloudinary = require('cloudinary').v2;
 const nodemailer = require("nodemailer")
 
-connection("mongodb+srv://muhammadwaleedahsan43:5J8mD9BusMIaO4fq@cluster0.ha3cp.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0").then(()=>{
+connection(process.env.MONGODB_CONN).then(()=>{
     console.log("db connected")
 }).catch((e)=>{
     console.log("catch error", e)
@@ -34,8 +34,8 @@ connection("mongodb+srv://muhammadwaleedahsan43:5J8mD9BusMIaO4fq@cluster0.ha3cp.
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: "muhammadwaleedahsan43@gmail.com", // Your Gmail address (used to send email)
-    pass: "vpra gyoh cmml fema", // Your Gmail App Password
+    user: EMAIL_USER, // Your Gmail address (used to send email)
+    pass: EMAIL_PASS, // Your Gmail App Password
   },
 });
 
