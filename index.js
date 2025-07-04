@@ -34,8 +34,8 @@ connection(process.env.MONGODB_CONN).then(()=>{
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: EMAIL_USER, // Your Gmail address (used to send email)
-    pass: EMAIL_PASS, // Your Gmail App Password
+    user: process.env.EMAIL_USER, // Your Gmail address (used to send email)
+    pass: process.env.EMAIL_PASS, // Your Gmail App Password
   },
 });
 
