@@ -44,7 +44,7 @@ app.post('/add-contact', async (req, res) => {
 
   const mailOptions = {
     from: `"${name}" <${email}>`, // Shows the sender's info
-    to: 'zamanmuhammadi700@gmail.com', // <-- Hardcoded receiver email
+    to: 'planicdesignisb@gmail.com', // <-- Hardcoded receiver email
     subject: 'New Contact Form Submission',
     html: `
       <h3>New Contact Message</h3>
