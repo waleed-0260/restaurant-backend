@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const portfolioSchema = new mongoose.Schema(
   {
     heading: { type: String, required: true },
+    category: { type: category, required: true },
     tagline: { type: String, required: true },
     // tags: [{ type: String, required: true }],
     description: { type: String, required: true },

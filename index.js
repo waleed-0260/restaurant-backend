@@ -110,6 +110,7 @@ app.post(
       try {
         const {
           heading,
+          category,
           tagline,
           // tags,
           description,
@@ -144,6 +145,7 @@ app.post(
         // Create new portfolio item
         const newPortfolio = new portfolio({
           heading,
+          category,
           tagline,
           // tags: tags.split(","),
           description,
