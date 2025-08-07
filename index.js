@@ -40,8 +40,7 @@ const transporter = nodemailer.createTransport({
 });
 
 app.post('/add-contact', async (req, res) => {
-      await dbConnect(process.env.MONGODB_CONN); // connect here
-
+  
   const { name, email, message, phone } = req.body;
 
   const mailOptions = {
@@ -58,6 +57,7 @@ app.post('/add-contact', async (req, res) => {
   };
 
   try {
+    await dbConnect(process.env.MONGODB_CONN); // connect here
     await transporter.sendMail(mailOptions);
     res.status(200).json({ success: true, message: 'Email sent successfully' });
   } catch (error) {
@@ -111,9 +111,9 @@ app.post(
       // { name: 'solutionImage', maxCount: 1 },
     ]),
     async (req, res) => {
-          await dbConnect(process.env.MONGODB_CONN); // connect here
-
+      
       try {
+        await dbConnect(process.env.MONGODB_CONN); // connect here
         const {
           heading,
           category,
@@ -185,17 +185,20 @@ app.post(
     }
   );
 
-app.get("/get-portfolio", async(req, res)=>{
-      await dbConnect(process.env.MONGODB_CONN); // connect here
-
-  const portfolioData = await portfolio.find();
+app.get("/get-portfolio", async (req, res) => {
+  try {
+    await dbConnect(process.env.MONGODB_CONN); // connect here
+    const portfolioData = await Portfolio.find(); // or .limit(10)
     res.status(200).json(portfolioData);
-})
+  } catch (error) {
+    console.error("Error fetching portfolio:", error);
+    res.status(500).json({ message: "Server Error" });
+  }
+});
 
 app.get("/get-portfolio/:id", async (req, res) => {
-      await dbConnect(process.env.MONGODB_CONN); // connect here
-
   try {
+    await dbConnect(process.env.MONGODB_CONN); // connect here
     const { id } = req.params;
 
     // Find the portfolio item by ID
