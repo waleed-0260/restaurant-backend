@@ -1,7 +1,25 @@
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
 
-const connection = async(db)=>{
-    return await mongoose.connect(db);
-}
+let isConnected = false; // 🔁 Global cache
 
-module.exports = connection;
+const dbConnect = async (dbUri) => {
+  if (isConnected) {
+    // Already connected
+    return;
+  }
+
+  try {
+    const db = await mongoose.connect(dbUri, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+
+    isConnected = db.connections[0].readyState === 1;
+    console.log("✅ MongoDB connected");
+  } catch (error) {
+    console.error("❌ MongoDB connection error:", error);
+    throw error;
+  }
+};
+
+module.exports = dbConnect;

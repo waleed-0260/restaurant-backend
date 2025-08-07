@@ -1,5 +1,5 @@
 const express = require("express")
-const connection = require("./DbConnection.js")
+const dbConnect = require("./DbConnection.js")
 const cors = require("cors")
 const admin = require("./routes/adminAuth.js")
 const contact = require("./models/contacts.js")
@@ -19,11 +19,11 @@ const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const cloudinary = require('cloudinary').v2;
 const nodemailer = require("nodemailer")
 
-connection(process.env.MONGODB_CONN).then(()=>{
-    console.log("db connected")
-}).catch((e)=>{
-    console.log("catch error", e)
-})
+// dbConnect(process.env.MONGODB_CONN).then(()=>{
+//     console.log("db connected")
+// }).catch((e)=>{
+//     console.log("catch error", e)
+// })
 // CONTACT FORM
 // app.post("/add-contact", async(req, res)=>{
 //     const {name, email, phone, message} = req.body;
@@ -40,6 +40,8 @@ const transporter = nodemailer.createTransport({
 });
 
 app.post('/add-contact', async (req, res) => {
+      await dbConnect(process.env.MONGODB_CONN); // connect here
+
   const { name, email, message, phone } = req.body;
 
   const mailOptions = {
@@ -64,6 +66,8 @@ app.post('/add-contact', async (req, res) => {
   }
 });
 app.get("/get-contacts", async(req, res)=>{
+      await dbConnect(process.env.MONGODB_CONN); // connect here
+
     const data = await contact.find({});
     res.status(200).json({data:data})
 })
@@ -107,6 +111,8 @@ app.post(
       // { name: 'solutionImage', maxCount: 1 },
     ]),
     async (req, res) => {
+          await dbConnect(process.env.MONGODB_CONN); // connect here
+
       try {
         const {
           heading,
@@ -180,11 +186,15 @@ app.post(
   );
 
 app.get("/get-portfolio", async(req, res)=>{
+      await dbConnect(process.env.MONGODB_CONN); // connect here
+
   const portfolioData = await portfolio.find();
     res.status(200).json(portfolioData);
 })
 
 app.get("/get-portfolio/:id", async (req, res) => {
+      await dbConnect(process.env.MONGODB_CONN); // connect here
+
   try {
     const { id } = req.params;
 
